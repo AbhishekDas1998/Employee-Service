@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.spring.dto.Employee;
+import com.spring.exception.EmployeeNotFoundException;
 import com.spring.service.EmployeeServiceClass;
 
 @RestController
