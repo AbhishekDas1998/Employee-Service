@@ -12,7 +12,6 @@ import javax.validation.constraints.Size;
 public class Employee {
 
 	@Id
-	@GeneratedValue
 	@Column(name = "E_Id")
 	private int eId;
 
@@ -23,8 +22,16 @@ public class Employee {
 	@Column(name = "E_Designation")
 	private String designation;
 
-
 	public Employee() {
+
+	}
+
+	public Employee(int eId, @Size(min = 2, message = "Name should have atleast 2 characters") String name,
+			String designation) {
+		super();
+		this.eId = eId;
+		this.name = name;
+		this.designation = designation;
 	}
 
 	public int geteId() {
@@ -50,6 +57,5 @@ public class Employee {
 	public void setDesignation(String designation) {
 		this.designation = designation;
 	}
-
 
 }

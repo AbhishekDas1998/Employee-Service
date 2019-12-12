@@ -15,9 +15,12 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.spring.dto.Employee;
+import com.spring.dto.Project;
+import com.spring.dto.ProjectEmployee;
 import com.spring.exception.EmployeeNotFoundException;
 import com.spring.service.EmployeeServiceClass;
 
@@ -27,6 +30,9 @@ public class EmployeeController {
 
 	@Autowired
 	EmployeeServiceClass ser;
+
+	@Autowired
+	RestTemplate rest;
 
 	@GetMapping(path = "/getAllEmployees")
 	public List<Employee> findAllEmployees() {
@@ -58,14 +64,38 @@ public class EmployeeController {
 			throw new EmployeeNotFoundException("Employee Not found with eId =" + eId);
 		} else {
 			ser.deleteEmployee(eId);
-			return "Employee deleted with eId "+eId;
+			return "Employee deleted with eId " + eId;
 		}
 	}
 
 	@PutMapping(path = "/updateEmployee")
 	public String updateEmployee(@RequestBody Employee employee) {
 		ser.updateEmployee(employee);
-		return "Employee updated with id "+employee.geteId();
+		return "Employee updated with id " + employee.geteId();
+	}
+
+	@PostMapping("/project")
+	public Project assignProject(@RequestBody Project project) {
+		return ser.assignProject(project);
+
+	}
+
+	@GetMapping("/findprojects/{pId}")
+	public Project getProject(@PathVariable int pId) {
+		return ser.getProjectsById(pId);
+
+	}
+	
+	@PostMapping("/projectEmployee")
+	public ProjectEmployee assignProjectEmployee(@RequestBody ProjectEmployee project) {
+		return ser.assignProjectEmployee(project);
+
+	}
+
+	@GetMapping("/findprojectEmployee/{eId}")
+	public ProjectEmployee getProjectEmployee(@PathVariable int eId) {
+		return ser.getProjectEmployeeById(eId);
+
 	}
 
 }
