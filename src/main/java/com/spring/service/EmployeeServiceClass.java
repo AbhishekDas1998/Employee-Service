@@ -72,10 +72,15 @@ public class EmployeeServiceClass {
 	public ProjectEmployee assignProjectEmployee(ProjectEmployee project) {
 
 		ProjectEmployee emp = restimpl.getProjectEmployeebyId(project.geteId());
-		String p = Integer.toString(emp.getpId());
+		Optional<Employee>employee=repo.findById(project.geteId());
+		if(employee.isPresent())
+		{
+		String p="";
+		 p = Integer.toString(emp.getpId());
 		if(emp.geteId()==0)
 		{
 		project = restimpl.assignprojectEmployee(project);
+		 p = Integer.toString(emp.getpId());
 		}
 		else if(p.isEmpty())
 		{
@@ -85,7 +90,10 @@ public class EmployeeServiceClass {
 			throw new EmployeeAlreadyhasProjectsException(
 					"Employee with eId " + emp.geteId() + " already has projects ");
 		}
-		
+		}
+		else {
+			throw new EmployeeNotFoundException("Employee doesn't exist");
+		}
 		return project;
 		
 	}
