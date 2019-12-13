@@ -1,9 +1,14 @@
 package com.spring.dto;
 
+import java.util.List;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
@@ -22,16 +27,20 @@ public class Employee {
 	@Column(name = "E_Designation")
 	private String designation;
 
+	@OneToMany(cascade = { CascadeType.ALL })
+	@JoinColumn(name = "Emp_Id")
+	private List<SkillsEmployee> skill;
+
 	public Employee() {
 
 	}
 
-	public Employee(int eId, @Size(min = 2, message = "Name should have atleast 2 characters") String name,
-			String designation) {
-		super();
-		this.eId = eId;
-		this.name = name;
-		this.designation = designation;
+	public List<SkillsEmployee> getSkill() {
+		return skill;
+	}
+
+	public void setSkill(List<SkillsEmployee> skill) {
+		this.skill = skill;
 	}
 
 	public int geteId() {

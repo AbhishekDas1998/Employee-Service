@@ -6,9 +6,12 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.spring.dto.Employee;
 import com.spring.dto.Project;
 import com.spring.dto.ProjectEmployee;
+import com.spring.dto.SkillsEmployee;
 import com.spring.exception.EmployeeAlreadyhasProjectsException;
 import com.spring.exception.EmployeeNotFoundException;
 import com.spring.repository.EmployeeRepository;
@@ -27,7 +30,10 @@ public class EmployeeServiceClass {
 		return repo.findAll();
 	}
 
-	public Employee addEmployee(Employee emp) {
+	public Employee addEmployee(Employee emp) throws JsonMappingException, JsonProcessingException {
+		
+		emp.setSkill(restimpl.getAllSkill());
+		
 		return repo.save(emp);
 	}
 
@@ -102,5 +108,32 @@ public class EmployeeServiceClass {
 		return restimpl.getProjectEmployeebyId(eId);
 
 	}
+	
+	
+	/*public SkillsEmployee assignSkillsEmployee(SkillsEmployee skill) {
+
+		SkillsEmployee emp = restimpl.getSkillsEmployeebyId(skill.geteId());
+		Optional<Employee>employee=repo.findById(skill.geteId());
+		if(employee.isPresent())
+		{
+		String p="";
+		if(emp.geteId()==0)
+		{
+		skill = restimpl.assignSkillEmployee(skill);
+		}
+		}
+		else {
+			throw new EmployeeNotFoundException("Employee doesn't exist");
+		}
+		return skill;
+		
+	}
+	
+	public SkillsEmployee getSkillsEmployeeById(int eId) {
+		return restimpl.getSkillsEmployeebyId(eId);
+
+	}
+	
+	*/
 
 }

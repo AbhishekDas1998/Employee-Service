@@ -21,6 +21,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import com.spring.dto.Employee;
 import com.spring.dto.Project;
 import com.spring.dto.ProjectEmployee;
+import com.spring.dto.SkillsEmployee;
 import com.spring.exception.EmployeeNotFoundException;
 import com.spring.service.EmployeeServiceClass;
 
@@ -97,5 +98,17 @@ public class EmployeeController {
 		return ser.getProjectEmployeeById(eId);
 
 	}
+	
+	/*@PostMapping("/skillEmployee")
+	public SkillsEmployee assignSkillEmployee(@RequestBody SkillsEmployee skill) {
+		return ser.assignSkillsEmployee(skill);
+
+	}
+	
+	@GetMapping("/findskillEmployee/{eId}")
+	public SkillsEmployee getSkillEmployee(@PathVariable int eId) {
+		return ser.getSkillsEmployeeById(eId);
+
+	}*/
 
 }
