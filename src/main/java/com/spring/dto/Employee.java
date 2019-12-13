@@ -1,9 +1,14 @@
 package com.spring.dto;
 
+import java.util.List;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
@@ -12,7 +17,6 @@ import javax.validation.constraints.Size;
 public class Employee {
 
 	@Id
-	@GeneratedValue
 	@Column(name = "E_Id")
 	private int eId;
 
@@ -23,8 +27,20 @@ public class Employee {
 	@Column(name = "E_Designation")
 	private String designation;
 
+	@OneToMany(cascade = { CascadeType.ALL })
+	@JoinColumn(name = "Emp_Id")
+	private List<SkillsEmployee> skill;
 
 	public Employee() {
+
+	}
+
+	public List<SkillsEmployee> getSkill() {
+		return skill;
+	}
+
+	public void setSkill(List<SkillsEmployee> skill) {
+		this.skill = skill;
 	}
 
 	public int geteId() {
@@ -50,6 +66,5 @@ public class Employee {
 	public void setDesignation(String designation) {
 		this.designation = designation;
 	}
-
 
 }
