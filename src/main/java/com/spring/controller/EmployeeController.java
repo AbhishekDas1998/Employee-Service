@@ -15,14 +15,10 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.spring.dto.Employee;
-import com.spring.dto.Project;
-import com.spring.dto.ProjectEmployee;
-import com.spring.dto.SkillsEmployee;
-import com.spring.exception.EmployeeNotFoundException;
+import com.spring.dto.Employee_Skill;
 import com.spring.service.EmployeeServiceClass;
 
 @RestController
@@ -31,9 +27,6 @@ public class EmployeeController {
 
 	@Autowired
 	EmployeeServiceClass ser;
-
-	@Autowired
-	RestTemplate rest;
 
 	@GetMapping(path = "/getAllEmployees")
 	public List<Employee> findAllEmployees() {
@@ -50,23 +43,15 @@ public class EmployeeController {
 
 	@GetMapping(path = "/getEmployee/{eId}")
 	public Employee findOneEmployee(@PathVariable int eId) {
-		Employee employee = ser.findOneEmployee(eId);
-		if (employee.geteId() == 0)
-			throw new EmployeeNotFoundException("Employee Not found with eId =" + eId);
-		else
-			return employee;
+		return ser.findOneEmployee(eId);
 
 	}
 
 	@DeleteMapping(path = "/deleteEmployee/{eId}")
 	public String deleteEmployee(@PathVariable int eId) {
-		Employee employee = ser.findOneEmployee(eId);
-		if (employee.geteId() == 0) {
-			throw new EmployeeNotFoundException("Employee Not found with eId =" + eId);
-		} else {
-			ser.deleteEmployee(eId);
-			return "Employee deleted with eId " + eId;
-		}
+		ser.deleteEmployee(eId);
+		return "Employee deleted with eId " + eId;
+
 	}
 
 	@PutMapping(path = "/updateEmployee")
@@ -75,40 +60,12 @@ public class EmployeeController {
 		return "Employee updated with id " + employee.geteId();
 	}
 
-	@PostMapping("/project")
-	public Project assignProject(@RequestBody Project project) {
-		return ser.assignProject(project);
-
+	@PostMapping(path = "/addEmployeeSkill")
+	public ResponseEntity<Employee> addEmployeeSkill(@Valid @RequestBody Employee_Skill employee) throws Exception {
+		Employee savedEmployee = ser.assignSkillEmployee(employee);
+		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{eId}")
+				.buildAndExpand(savedEmployee.geteId()).toUri();
+		return ResponseEntity.created(location).build();
 	}
-
-	@GetMapping("/findprojects/{pId}")
-	public Project getProject(@PathVariable int pId) {
-		return ser.getProjectsById(pId);
-
-	}
-	
-	@PostMapping("/projectEmployee")
-	public ProjectEmployee assignProjectEmployee(@RequestBody ProjectEmployee project) {
-		return ser.assignProjectEmployee(project);
-
-	}
-
-	@GetMapping("/findprojectEmployee/{eId}")
-	public ProjectEmployee getProjectEmployee(@PathVariable int eId) {
-		return ser.getProjectEmployeeById(eId);
-
-	}
-	
-	/*@PostMapping("/skillEmployee")
-	public SkillsEmployee assignSkillEmployee(@RequestBody SkillsEmployee skill) {
-		return ser.assignSkillsEmployee(skill);
-
-	}
-	
-	@GetMapping("/findskillEmployee/{eId}")
-	public SkillsEmployee getSkillEmployee(@PathVariable int eId) {
-		return ser.getSkillsEmployeeById(eId);
-
-	}*/
 
 }

@@ -9,10 +9,8 @@ import org.springframework.stereotype.Service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.spring.dto.Employee;
-import com.spring.dto.Project;
-import com.spring.dto.ProjectEmployee;
+import com.spring.dto.Employee_Skill;
 import com.spring.dto.SkillsEmployee;
-import com.spring.exception.EmployeeAlreadyhasProjectsException;
 import com.spring.exception.EmployeeNotFoundException;
 import com.spring.repository.EmployeeRepository;
 import com.spring.repository.RestTempleteImpl;
@@ -27,13 +25,16 @@ public class EmployeeServiceClass {
 	RestTempleteImpl restimpl;
 
 	public List<Employee> findAllEmployees() {
-		return repo.findAll();
+		
+		List<Employee> employee= repo.findAll();
+		if(employee.isEmpty())
+		{
+			throw new EmployeeNotFoundException("No Employees found");
+		}
+		return employee;
 	}
 
 	public Employee addEmployee(Employee emp) throws JsonMappingException, JsonProcessingException {
-		
-		emp.setSkill(restimpl.getAllSkill());
-		
 		return repo.save(emp);
 	}
 
@@ -42,13 +43,18 @@ public class EmployeeServiceClass {
 		if (empOptional.isPresent()) {
 			return empOptional.get();
 		} else {
-			return new Employee();
+			throw new EmployeeNotFoundException("Employee Not found with eId =" + eId);
 		}
 	}
 
 	public void deleteEmployee(int eId) {
-
+		Optional<Employee> empOptional = repo.findById(eId);
+		if (empOptional.isPresent()) {
 		repo.deleteById(eId);
+		}
+		else {
+			throw new EmployeeNotFoundException("Employee Not found with eId =" + eId);
+		}
 	}
 
 	public Employee updateEmployee(Employee emp) {
@@ -64,76 +70,20 @@ public class EmployeeServiceClass {
 
 	}
 
-	public Project assignProject(Project project) {
+	public Employee assignSkillEmployee(Employee_Skill employee) throws JsonMappingException, JsonProcessingException {
+		Optional<Employee> empOptional = repo.findById(employee.geteId());
+		if (empOptional.isPresent()) {
+			Employee e = empOptional.get();
 
-		return restimpl.assignproject(project);
-
+			List<SkillsEmployee> empSkills = e.getSkill();
+			for (SkillsEmployee skills : restimpl.getSkillByName(employee.getsName())) {
+				empSkills.add(skills);
+			}
+			e.setSkill(empSkills);
+			return repo.save(e);
+		} else {
+			throw new EmployeeNotFoundException("Employee Not found");
+		}
 	}
-
-	public Project getProjectsById(int pId) {
-		return restimpl.getProjectbyId(pId);
-
-	}
-
-	public ProjectEmployee assignProjectEmployee(ProjectEmployee project) {
-
-		ProjectEmployee emp = restimpl.getProjectEmployeebyId(project.geteId());
-		Optional<Employee>employee=repo.findById(project.geteId());
-		if(employee.isPresent())
-		{
-		String p="";
-		 p = Integer.toString(emp.getpId());
-		if(emp.geteId()==0)
-		{
-		project = restimpl.assignprojectEmployee(project);
-		 p = Integer.toString(emp.getpId());
-		}
-		else if(p.isEmpty())
-		{
-			project = restimpl.assignprojectEmployee(project);
-		}
-		else {
-			throw new EmployeeAlreadyhasProjectsException(
-					"Employee with eId " + emp.geteId() + " already has projects ");
-		}
-		}
-		else {
-			throw new EmployeeNotFoundException("Employee doesn't exist");
-		}
-		return project;
-		
-	}
-
-	public ProjectEmployee getProjectEmployeeById(int eId) {
-		return restimpl.getProjectEmployeebyId(eId);
-
-	}
-	
-	
-	/*public SkillsEmployee assignSkillsEmployee(SkillsEmployee skill) {
-
-		SkillsEmployee emp = restimpl.getSkillsEmployeebyId(skill.geteId());
-		Optional<Employee>employee=repo.findById(skill.geteId());
-		if(employee.isPresent())
-		{
-		String p="";
-		if(emp.geteId()==0)
-		{
-		skill = restimpl.assignSkillEmployee(skill);
-		}
-		}
-		else {
-			throw new EmployeeNotFoundException("Employee doesn't exist");
-		}
-		return skill;
-		
-	}
-	
-	public SkillsEmployee getSkillsEmployeeById(int eId) {
-		return restimpl.getSkillsEmployeebyId(eId);
-
-	}
-	
-	*/
 
 }

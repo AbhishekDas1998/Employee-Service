@@ -7,7 +7,7 @@ public class ExceptionResponse {
 	private Date timeStamp;
 	private String message;
 	private String details;
-	
+
 	public ExceptionResponse(Date timeStamp, String message, String details) {
 		super();
 		this.timeStamp = timeStamp;
@@ -38,9 +38,5 @@ public class ExceptionResponse {
 	public void setDetails(String details) {
 		this.details = details;
 	}
-	
-	
-	
-	
-	
+
 }
