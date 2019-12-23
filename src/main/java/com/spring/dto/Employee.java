@@ -1,17 +1,20 @@
 package com.spring.dto;
 
 import java.util.List;
-import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
+/**
+ * @author Abhishek.Das
+ *
+ */
 @Entity
 @Table(name = "Employee_Details")
 public class Employee {
@@ -27,10 +30,11 @@ public class Employee {
 	@Column(name = "E_Designation")
 	private String designation;
 
-	@OneToMany(cascade = { CascadeType.ALL })
+	@ManyToMany(cascade = { CascadeType.ALL })
 	@JoinColumn(name = "Emp_Id")
 	private List<SkillsEmployee> skill;
 
+	
 	public Employee() {
 
 	}
@@ -39,8 +43,8 @@ public class Employee {
 		return skill;
 	}
 
-	public void setSkill(List<SkillsEmployee> skill) {
-		this.skill = skill;
+	public void setSkill(List<SkillsEmployee> skillsEmployee) {
+		this.skill = skillsEmployee;
 	}
 
 	public int geteId() {
@@ -65,6 +69,11 @@ public class Employee {
 
 	public void setDesignation(String designation) {
 		this.designation = designation;
+	}
+
+	@Override
+	public String toString() {
+		return "Employee [eId=" + eId + ", name=" + name + ", designation=" + designation + ", skill=" + skill + "]";
 	}
 
 }

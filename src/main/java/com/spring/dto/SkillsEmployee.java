@@ -4,8 +4,12 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+/**
+ * @author Abhishek.Das
+ *
+ */
 @Entity
-@Table(name="Employee_Skill")
+@Table(name = "Employee_Skill")
 public class SkillsEmployee {
 
 	@Id
@@ -15,7 +19,6 @@ public class SkillsEmployee {
 	public SkillsEmployee() {
 	}
 
-
 	public int getsId() {
 		return sId;
 	}
@@ -24,15 +27,17 @@ public class SkillsEmployee {
 		this.sId = sId;
 	}
 
-
 	public String getsName() {
 		return sName;
 	}
-
 
 	public void setsName(String sName) {
 		this.sName = sName;
 	}
 
-	
+	@Override
+	public String toString() {
+		return "SkillsEmployee [sId=" + sId + ", sName=" + sName + "]";
+	}
+
 }
