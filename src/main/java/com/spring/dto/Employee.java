@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
@@ -33,11 +34,26 @@ public class Employee {
 	@ManyToMany(cascade = { CascadeType.ALL })
 	@JoinColumn(name = "Emp_Id")
 	private List<SkillsEmployee> skill;
+	
+	@OneToOne(cascade={CascadeType.ALL})
+	@JoinColumn(name="projId")
+	private ProjectEmployee project;
 
 	
 	public Employee() {
 
 	}
+	
+
+	public ProjectEmployee getProject() {
+		return project;
+	}
+
+
+	public void setProject(ProjectEmployee project) {
+		this.project = project;
+	}
+
 
 	public List<SkillsEmployee> getSkill() {
 		return skill;
@@ -71,9 +87,13 @@ public class Employee {
 		this.designation = designation;
 	}
 
+
 	@Override
 	public String toString() {
-		return "Employee [eId=" + eId + ", name=" + name + ", designation=" + designation + ", skill=" + skill + "]";
+		return "Employee [eId=" + eId + ", name=" + name + ", designation=" + designation + ", skill=" + skill
+				+ ", project=" + project + "]";
 	}
+
+	
 
 }

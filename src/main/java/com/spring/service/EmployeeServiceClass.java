@@ -9,8 +9,10 @@ import org.springframework.stereotype.Service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.spring.dto.Employee;
+import com.spring.dto.Employee_Project;
 import com.spring.dto.Employee_Skill;
 import com.spring.dto.SkillsEmployee;
+import com.spring.exception.EmployeeAlreadyhasProjectsException;
 import com.spring.exception.EmployeeNotFoundException;
 import com.spring.repository.EmployeeRepository;
 import com.spring.repository.RestTempleteImpl;
@@ -85,5 +87,25 @@ public class EmployeeServiceClass {
 			throw new EmployeeNotFoundException("Employee Not found");
 		}
 	}
+	
+	
+	public Employee assignProjectEmployee(Employee_Project employee) throws JsonMappingException, JsonProcessingException {
+		Optional<Employee> empOptional = repo.findById(employee.geteId());
+		if (empOptional.isPresent()) {
+			
+			Employee e = empOptional.get();
+			if(e.getProject()==null)
+			{
+			e.setProject(restimpl.getProjectByName(employee.getpName()));
+			return repo.save(e);
+			}
+			else {
+				throw new EmployeeAlreadyhasProjectsException("Employee already has projects");
+			}
+		} else {
+			throw new EmployeeNotFoundException("Employee Not found");
+		}
+	}
+	
 
 }
