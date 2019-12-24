@@ -5,6 +5,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+/**
+ * @author Abhishek.Das
+ *
+ */
 @Entity
 @Table(name = "Employee_Project")
 public class ProjectEmployee {
