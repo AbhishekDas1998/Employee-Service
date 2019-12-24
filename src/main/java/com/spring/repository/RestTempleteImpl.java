@@ -9,6 +9,7 @@ import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
+import com.spring.dto.ProjectEmployee;
 import com.spring.dto.SkillsEmployee;
 
 @Configuration
@@ -32,6 +33,14 @@ public class RestTempleteImpl {
 				SkillsEmployee.class);
 		List<SkillsEmployee> emp = Arrays.asList(result);
 		return emp;
+	}
+	
+	
+	public ProjectEmployee getProjectByName(String pName)
+	{
+		ProjectEmployee project=rest.getForObject("http://localhost:8109/project/getProjectbyName/" +pName, ProjectEmployee.class);
+		return project;
+		
 	}
 
 }
