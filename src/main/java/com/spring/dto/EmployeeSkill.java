@@ -4,12 +4,12 @@ package com.spring.dto;
  * @author Abhishek.Das
  *
  */
-public class Employee_Skill {
+public class EmployeeSkill {
 
 	private int eId;
 	private String sName;
 
-	public Employee_Skill() {
+	public EmployeeSkill() {
 	}
 
 	public int geteId() {

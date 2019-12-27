@@ -5,12 +5,9 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.spring.dto.Employee;
-import com.spring.dto.Employee_Project;
-import com.spring.dto.Employee_Skill;
+import com.spring.dto.EmployeeProject;
+import com.spring.dto.EmployeeSkill;
 import com.spring.dto.SkillsEmployee;
 import com.spring.exception.EmployeeAlreadyhasProjectsException;
 import com.spring.exception.EmployeeNotFoundException;
@@ -36,7 +33,7 @@ public class EmployeeServiceClass {
 		return employee;
 	}
 
-	public Employee addEmployee(Employee emp) throws JsonMappingException, JsonProcessingException {
+	public Employee addEmployee(Employee emp) {
 		return repo.save(emp);
 	}
 
@@ -72,7 +69,7 @@ public class EmployeeServiceClass {
 
 	}
 
-	public Employee assignSkillEmployee(Employee_Skill employee) throws JsonMappingException, JsonProcessingException {
+	public Employee assignSkillEmployee(EmployeeSkill employee)  {
 		Optional<Employee> empOptional = repo.findById(employee.geteId());
 		if (empOptional.isPresent()) {
 			Employee e = empOptional.get();
@@ -89,7 +86,7 @@ public class EmployeeServiceClass {
 	}
 	
 	
-	public Employee assignProjectEmployee(Employee_Project employee) throws JsonMappingException, JsonProcessingException {
+	public Employee assignProjectEmployee(EmployeeProject employee) {
 		Optional<Employee> empOptional = repo.findById(employee.geteId());
 		if (empOptional.isPresent()) {
 			

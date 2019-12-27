@@ -4,13 +4,13 @@ package com.spring.dto;
  * @author Abhishek.Das
  *
  */
-public class Employee_Project {
+public class EmployeeProject {
 
 	private int eId;
 	private String pName;
 	
 	
-	public Employee_Project() {
+	public EmployeeProject() {
 	}
 	
 	public int geteId() {
