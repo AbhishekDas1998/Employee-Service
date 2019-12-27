@@ -18,8 +18,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.spring.dto.Employee;
-import com.spring.dto.Employee_Project;
-import com.spring.dto.Employee_Skill;
+import com.spring.dto.EmployeeProject;
+import com.spring.dto.EmployeeSkill;
 import com.spring.service.EmployeeServiceClass;
 
 @RestController
@@ -62,7 +62,7 @@ public class EmployeeController {
 	}
 
 	@PostMapping(path = "/addEmployeeSkill")
-	public ResponseEntity<Employee> addEmployeeSkill(@Valid @RequestBody Employee_Skill employee) throws Exception {
+	public ResponseEntity<Employee> addEmployeeSkill(@Valid @RequestBody EmployeeSkill employee) throws Exception {
 		Employee savedEmployee = ser.assignSkillEmployee(employee);
 		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{eId}")
 				.buildAndExpand(savedEmployee.geteId()).toUri();
@@ -70,7 +70,7 @@ public class EmployeeController {
 	}
 	
 	@PostMapping(path = "/addEmployeeProject")
-	public ResponseEntity<Employee> addEmployeeProject(@Valid @RequestBody Employee_Project employee) throws Exception {
+	public ResponseEntity<Employee> addEmployeeProject(@Valid @RequestBody EmployeeProject employee) throws Exception {
 		Employee savedEmployee = ser.assignProjectEmployee(employee);
 		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{eId}")
 				.buildAndExpand(savedEmployee.geteId()).toUri();

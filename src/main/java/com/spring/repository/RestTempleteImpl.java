@@ -6,9 +6,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.client.RestTemplate;
-
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.spring.dto.ProjectEmployee;
 import com.spring.dto.SkillsEmployee;
 
@@ -18,7 +15,7 @@ public class RestTempleteImpl {
 	@Autowired
 	RestTemplate rest;
 
-	public List<SkillsEmployee> getAllSkill() throws JsonMappingException, JsonProcessingException {
+	public List<SkillsEmployee> getAllSkill() {
 
 		SkillsEmployee[] result = rest.getForObject("http://localhost:8099/skill/getAllSkills", SkillsEmployee[].class);
 
@@ -27,7 +24,7 @@ public class RestTempleteImpl {
 		return emp;
 	}
 
-	public List<SkillsEmployee> getSkillByName(String sName) throws JsonMappingException, JsonProcessingException {
+	public List<SkillsEmployee> getSkillByName(String sName) {
 
 		SkillsEmployee result = rest.getForObject("http://localhost:8099/skill/getSkillbyName/" + sName,
 				SkillsEmployee.class);
@@ -38,9 +35,7 @@ public class RestTempleteImpl {
 	
 	public ProjectEmployee getProjectByName(String pName)
 	{
-		ProjectEmployee project=rest.getForObject("http://localhost:8109/project/getProjectbyName/" +pName, ProjectEmployee.class);
-		return project;
-		
+		return rest.getForObject("http://localhost:8109/project/getProjectbyName/" +pName, ProjectEmployee.class);
 	}
 
 }
